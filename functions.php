@@ -8,6 +8,10 @@ function philosophy_after_setup_theme(){
     add_theme_support("html5", ['search-form', 'comment-list']);
     add_theme_support("post-formats", ["image", "gallery", "quote", "audio", "video", "link"]);
     add_editor_style("/assets/css/editor-style.css");
+
+    register_nav_menus([
+        "top-menu"  => __("Top Menu", "philosophy")
+    ]);
 }
 
 add_action("after_setup_theme", "philosophy_after_setup_theme");
@@ -32,5 +36,13 @@ function enqueue_template_files(){
 
 }
 
-add_action("wp_enqueue_scripts", "enqueue_template_files")
+add_action("wp_enqueue_scripts", "enqueue_template_files");
+
+
+
+// TGM Plugin Activtion 
+require_once(get_theme_file_path("inc/tgm.php"));
+
+define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-latest/starbelly/' );
+
 ?>
