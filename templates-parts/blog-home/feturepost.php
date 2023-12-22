@@ -19,7 +19,7 @@ while ($feturepost->have_posts()) {
         'post_date' => get_the_date('F j, Y'),
         'author' => get_the_author_meta('display_name'),
         'avatar' => get_avatar_url(get_the_author_meta('ID')),
-        'cat'   => $categorys[0]->name,
+        'cat'   => $categorys[rand(0, count($categorys) -1)]->name,
     ];
 }
 if ($feturepost->post_count > 1):
