@@ -47,4 +47,24 @@ require_once(get_theme_file_path("inc/tgm.php"));
 
 define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-latest/starbelly/' );
 
+    function philosophy_post_pagination(){
+        global $wp_query;
+        $link = paginate_links(
+            [
+                'current'   => max(1, get_query_var('paged')),
+                'total'     => $wp_query->max_num_pages,
+                'type'  => 'list',
+                'mid_size' => 6
+
+            ]
+        );
+
+        $link = str_replace("page-numbers", "pgn__num", $link);
+        $link = str_replace("<ul class='pgn__num'>", "<ul>", $link);
+        $link = str_replace("prev pgn__num", "pgn__prev", $link);
+        $link = str_replace("next pgn__num", "pgn__next", $link);
+
+        echo $link;
+    }
+
 ?>
