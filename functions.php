@@ -12,6 +12,8 @@ function philosophy_after_setup_theme(){
     register_nav_menus([
         "top-menu"  => __("Top Menu", "philosophy")
     ]);
+
+    add_image_size("philosophy-squer", 400, 400);
 }
 
 add_action("after_setup_theme", "philosophy_after_setup_theme");
