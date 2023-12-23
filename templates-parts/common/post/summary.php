@@ -2,7 +2,7 @@
     <div class="entry__header">
 
         <div class="entry__date">
-            <a href=""<?php the_permalink(); ?>"><?php echo esc_html(get_the_date()); ?></a>
+            <a href="<?php the_permalink(); ?>"><?php echo esc_html(get_the_date()); ?></a>
         </div>
         <h1 class="entry__title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h1>
 

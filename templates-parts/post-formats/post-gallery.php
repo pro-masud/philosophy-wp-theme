@@ -1,24 +1,22 @@
 <article class="masonry__brick entry format-gallery" data-aos="fade-up">
+    <?php if (class_exists('Attachments')):
+        $attechments = new Attachments("gallery");
+        if ($attechments->exist()):
+            ?>
+            <div class="entry__thumb slider">
+                <div class="slider__slides">
+                    <?php while($attechment = $attechments-> get()): ?>
+                    <div class="slider__slide">
+                        <?php echo $attechments->image('philosophy-squer'); ?>
+                    </div>
+                    <?php endwhile; ?>
+                </div>
+            </div>
 
-    <div class="entry__thumb slider">
-        <div class="slider__slides">
-            <div class="slider__slide">
-                <img src="<?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-1-400.jpg"
-                    srcset="<?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-1-400.jpg 1x, <?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-1-800.jpg 2x"
-                    alt="">
-            </div>
-            <div class="slider__slide">
-                <img src="<?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-2-400.jpg"
-                    srcset="<?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-2-400.jpg 1x, <?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-2-800.jpg 2x"
-                    alt="">
-            </div>
-            <div class="slider__slide">
-                <img src="<?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-3-400.jpg"
-                    srcset="<?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-3-400.jpg 1x, <?php echo get_template_directory_uri() ?>/assets/images/thumbs/masonry/gallery/gallery-3-800.jpg 2x"
-                    alt="">
-            </div>
-        </div>
-    </div>
+        <?php
+        endif;
+    endif;
+    ?>
 
     <?php get_template_part("templates-parts/common/post/summary"); ?>
 

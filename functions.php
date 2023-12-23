@@ -44,6 +44,7 @@ add_action("wp_enqueue_scripts", "enqueue_template_files");
 
 // TGM Plugin Activtion 
 require_once(get_theme_file_path("inc/tgm.php"));
+require_once(get_theme_file_path("inc/attactments.php"));
 
 define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-latest/starbelly/' );
 
