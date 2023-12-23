@@ -1,3 +1,9 @@
+<?php 
+    $philosophy_audio_url = "";
+    if(function_exists("the_field")){
+        $philosophy_audio_url = get_field("source_file");
+    }
+?>
 <article class="masonry__brick entry format-audio" data-aos="fade-up">
 
     <div class="entry__thumb">
@@ -5,11 +11,11 @@
             <?php the_post_thumbnail('philosophy-squer'); ?>
         </a>
         <div class="audio-wrap">
-            <audio id="player" src="media/AirReview-Landmarks-02-ChasingCorporate.mp3" width="100%" height="42"
+            <audio autoplay id="player" src="<?php  echo esc_url($philosophy_audio_url); ?>" width="100%" height="42"
                 controls="controls"></audio>
         </div>
     </div>
 
-    <?php get_template_part("templates-parts/common/post/summary"); ?>
+    <?php  get_template_part("templates-parts/common/post/summary"); ?>
 
 </article>
