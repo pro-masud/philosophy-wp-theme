@@ -1,93 +1,121 @@
 <?php get_header(); ?>
 
+
 <!-- s-content
     ================================================== -->
 <section class="s-content s-content--narrow s-content--no-padding-bottom">
 
-    <article class="row format-standard">
+    <?php while (have_posts()) {
+        the_post();
+        $id = get_post_field('post_author');
+        ?>
+        <article class="row format-standard">
 
-        <div class="s-content__header col-full">
-            <h1 class="s-content__header-title">
-                <?php the_title(); ?>
-            </h1>
-            <ul class="s-content__header-meta">
-                <li class="date"><?php the_date('F j, Y'); ?></li>
-                <li class="cat">
-                    In
-                    <?php 
+            <div class="s-content__header col-full">
+                <h1 class="s-content__header-title">
+                    <?php the_title(); ?>
+                </h1>
+                <ul class="s-content__header-meta">
+                    <li class="date">
+                        <?php the_date('F j, Y'); ?>
+                    </li>
+                    <li class="cat">
+                        In
+                        <?php
                         // echo get_the_category_list(" "); 
-                                    // OR
+                        // OR
                         the_category(" ");
-                    
-                    ?>
-                </li>
-            </ul>
-        </div> <!-- end s-content__header -->
 
-        <div class="s-content__media col-full">
-            <div class="s-content__post-thumb">
-               <?php the_post_thumbnail("large"); ?>
-            </div>
-        </div> <!-- end s-content__media -->
+                        ?>
+                    </li>
+                </ul>
+            </div> <!-- end s-content__header -->
 
-        <div class="col-full s-content__main">
-            <?php the_content(); ?>
-            <p class="s-content__tags">
-                <span>Post Tags</span>
+            <div class="s-content__media col-full">
+                <div class="s-content__post-thumb">
+                    <?php the_post_thumbnail("large"); ?>
+                </div>
+            </div> <!-- end s-content__media -->
 
-                <span class="s-content__tag-list">
-                    <?php 
+            <div class="col-full s-content__main">
+                <?php the_content(); ?>
+                <p class="s-content__tags">
+                    <span>Post Tags</span>
+
+                    <span class="s-content__tag-list">
+                        <?php
                         // echo get_the_tag_list(" "); 
-                                // OR
-                        the_tags(" ");
-                    ?>
-                </span>
-            </p> <!-- end s-content__tags -->
+                        // OR
+                        the_tags(" ", " ", " ");
+                        ?>
+                    </span>
+                </p> <!-- end s-content__tags -->
 
-            <div class="s-content__author">
-                <img src="images/avatars/user-03.jpg" alt="">
+                <div class="s-content__author">
+                    <?php echo get_avatar(get_the_author_meta("ID")); ?>
 
-                <div class="s-content__author-about">
-                    <h4 class="s-content__author-name">
-                        <a href="#0">Jonathan Doe</a>
-                    </h4>
+                    <div class="s-content__author-about">
+                        <h4 class="s-content__author-name">
+                            <a href="#0">
+                                <?php echo get_the_author_meta('first_name', $id) . ' ' . get_the_author_meta('last_name', $id); ?>
+                            </a>
+                        </h4>
 
-                    <p>Alias aperiam at debitis deserunt dignissimos dolorem doloribus, fuga fugiat impedit laudantium
-                        magni maxime nihil nisi quidem quisquam sed ullam voluptas voluptatum. Lorem ipsum dolor sit
-                        amet, consectetur adipisicing elit.
-                    </p>
+                        <p>
+                            <?php echo get_the_author_meta('user_description', $id) ?>
+                        </p>
+                        <?php
+                        $pliosophy_fb = get_field("facebook_profile", "user_" . get_the_author_meta("ID"));
+                        $pliosophy_tw = get_field("twitter_profile", "user_" . get_the_author_meta("ID"));
+                        $pliosophy_insta = get_field("instagram_profile", "user_" . get_the_author_meta("ID"));
+                        $pliosophy_gg = get_field("google_profile", "user_" . get_the_author_meta("ID"));
 
-                    <ul class="s-content__author-social">
-                        <li><a href="#0">Facebook</a></li>
-                        <li><a href="#0">Twitter</a></li>
-                        <li><a href="#0">GooglePlus</a></li>
-                        <li><a href="#0">Instagram</a></li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="s-content__pagenav">
-                <div class="s-content__nav">
-                    <div class="s-content__prev">
-                        <a href="#0" rel="prev">
-                            <span>Previous Post</span>
-                            Tips on Minimalist Design
-                        </a>
+                        ?>
+                        <?php if ($pliosophy_fb || $pliosophy_tw || $pliosophy_insta || $pliosophy_gg): ?>
+                            <ul class="s-content__author-social">
+                                <?php if ($pliosophy_fb): ?>
+                                    <li><a href="<?php echo esc_url($pliosophy_fb); ?>">Facebook</a></li>
+                                <?php endif; ?>
+                                <?php if ($pliosophy_tw): ?>
+                                    <li><a href="<?php echo esc_url($pliosophy_tw); ?>">Twitter</a></li>
+                                <?php endif; ?>
+                                <?php if ($pliosophy_insta): ?>
+                                    <li><a href="<?php echo esc_url($pliosophy_insta); ?>">GooglePlus</a></li>
+                                <?php endif; ?>
+                                <?php if ($pliosophy_gg): ?>
+                                    <li><a href="<?php echo esc_url($pliosophy_gg); ?>">Instagram</a></li>
+                                <?php endif; ?>
+                            </ul>
+                        <?php endif; ?>
                     </div>
-                    <div class="s-content__next">
-                        <a href="#0" rel="next">
-                            <span>Next Post</span>
-                            Less Is More
-                        </a>
-                    </div>
                 </div>
-            </div> <!-- end s-content__pagenav -->
 
-        </div> <!-- end s-content__main -->
+                <div class="s-content__pagenav">
+                    <div class="s-content__nav">
+                        <div class="s-content__prev">
+                            <a href="#0" rel="prev">
+                                <span>Previous Post</span>
+                                Tips on Minimalist Design
+                            </a>
+                        </div>
+                        <div class="s-content__next">
+                            <a href="#0" rel="next">
+                                <span>Next Post</span>
+                                Less Is More
+                            </a>
+                        </div>
+                    </div>
+                </div> <!-- end s-content__pagenav -->
 
-    </article>
+            </div> <!-- end s-content__main -->
 
+        </article>
 
+        <?php
+    }
+    wp_reset_query();
+
+    ?>
     <!-- comments
         ================================================== -->
     <div class="comments-wrap">
