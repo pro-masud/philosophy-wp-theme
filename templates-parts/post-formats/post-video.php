@@ -1,8 +1,8 @@
-<?php 
-    $philosophy_audio_url = "";
-    if(function_exists("the_field")){
-        $philosophy_video_url = get_field("source_file");
-    }
+<?php
+$philosophy_audio_url = "";
+if (function_exists("the_field")) {
+    $philosophy_video_url = get_field("source_file");
+}
 ?>
 <article class="masonry__brick entry format-video" data-aos="fade-up">
 

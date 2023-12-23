@@ -1,55 +1,34 @@
-<!DOCTYPE html>
-<html class="no-js" <?php echo language_attributes(); ?>>
-<head>
+<?php get_header(); ?>
 
-
-    <!--- basic page needs
+<!-- s-content
     ================================================== -->
-    <meta <?php bloginfo('charset'); ?>>
-    <title>Philosophy</title>
-    <meta name="description" content="">
-    <meta name="author" content="">
+<section class="s-content">
 
-    <!-- mobile specific metas
-    ================================================== -->
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <div class="row masonry-wrap">
+        <div class="masonry">
 
-    <?php wp_head(); ?>
-</head>
+            <div class="grid-sizer"></div>
+            <?php
 
-<body id="top" <?php body_class(); ?>>
+            while (have_posts()) {
+                the_post();
+                get_template_part("templates-parts/post-formats/post", get_post_format());
+            }
+            wp_reset_query();
 
-    <?php get_header(); ?>
+            ?>
+        </div> <!-- end masonry -->
+    </div> <!-- end masonry-wrap -->
 
-    <!-- s-content
-    ================================================== -->
-    <section class="s-content">
-        
-        <div class="row masonry-wrap">
-            <div class="masonry">
-
-                <div class="grid-sizer"></div>
-                <?php
-
-                    while(have_posts()){
-                        the_post();
-                        get_template_part("templates-parts/post-formats/post", get_post_format());
-                    }
-                    wp_reset_query();
-                
-                ?>
-            </div> <!-- end masonry -->
-        </div> <!-- end masonry-wrap -->
-
-        <div class="row">
-            <div class="col-full">
-                <nav class="pgn">
-                   <?php philosophy_post_pagination(); ?>
-                </nav>
-            </div>
+    <div class="row">
+        <div class="col-full">
+            <nav class="pgn">
+                <?php philosophy_post_pagination(); ?>
+            </nav>
         </div>
+    </div>
 
-    </section> <!-- s-content -->
+</section> <!-- s-content -->
 
 
-   <?php get_footer(); ?>
+<?php get_footer(); ?>

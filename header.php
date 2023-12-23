@@ -1,4 +1,25 @@
-<section class="s-pageheader s-pageheader--home">
+<!DOCTYPE html>
+<html class="no-js" <?php echo language_attributes(); ?>>
+<head>
+
+
+    <!--- basic page needs
+    ================================================== -->
+    <meta <?php bloginfo('charset'); ?>>
+    <title>Philosophy</title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- mobile specific metas
+    ================================================== -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <?php wp_head(); ?>
+</head>
+
+<body id="top" <?php body_class(); ?>>
+
+<section class="s-pageheader <?php if(is_home()) echo 's-pageheader--home' ?>">
 
         <header class="header">
             <div class="header__content row">
@@ -49,6 +70,10 @@
         </header> <!-- header -->
 
 
-        <?php get_template_part("templates-parts/blog-home/feturepost"); ?>
+        <?php 
+            if(is_home()){
+                get_template_part("templates-parts/blog-home/feturepost");
+            }
+        ?>
 
     </section> 
