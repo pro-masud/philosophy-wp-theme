@@ -93,16 +93,30 @@
                 <div class="s-content__pagenav">
                     <div class="s-content__nav">
                         <div class="s-content__prev">
-                            <a href="#0" rel="prev">
-                                <span>Previous Post</span>
-                                Tips on Minimalist Design
-                            </a>
+                            <?php
+                            $pliosophy_prev_post = get_previous_post();
+                            if ($pliosophy_prev_post):
+                                ?>
+                                <a href="<?php echo get_the_permalink($pliosophy_prev_post); ?>" rel="prev">
+                                    <span>
+                                        <?php _e('Previous Post', 'pliosophy'); ?>
+                                    </span>
+                                    <?php echo get_the_title($pliosophy_prev_post); ?>
+                                </a>
+                            <?php endif; ?>
                         </div>
                         <div class="s-content__next">
-                            <a href="#0" rel="next">
-                                <span>Next Post</span>
-                                Less Is More
-                            </a>
+                        <?php
+                            $pliosophy_next_post = get_next_post();
+                            if ($pliosophy_next_post):
+                                ?>
+                                <a href="<?php echo get_the_permalink($pliosophy_next_post); ?>" rel="prev">
+                                    <span>
+                                        <?php _e('Next Post', 'pliosophy'); ?>
+                                    </span>
+                                    <?php echo get_the_title($pliosophy_next_post); ?>
+                                </a>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div> <!-- end s-content__pagenav -->
