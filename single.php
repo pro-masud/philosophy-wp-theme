@@ -56,7 +56,7 @@
 
                     <div class="s-content__author-about">
                         <h4 class="s-content__author-name">
-                            <a href="#0">
+                            <a href="<?php echo esc_url(get_author_posts_url(get_the_author("ID")));  ?>">
                                 <?php echo get_the_author_meta('first_name', $id) . ' ' . get_the_author_meta('last_name', $id); ?>
                             </a>
                         </h4>
