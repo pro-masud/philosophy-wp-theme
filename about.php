@@ -29,27 +29,12 @@
             </div> <!-- end s-content__main -->
 
             <div class="row block-1-2 block-tab-full">
-                    <div class="col-block">
-                        <h3 class="quarter-top-margin">Who We Are.</h3>
-                        <p>Lorem ipsum Nisi amet fugiat eiusmod et aliqua ad qui ut nisi Ut aute anim mollit fugiat qui sit ex occaecat et eu mollit nisi pariatur fugiat deserunt dolor veniam reprehenderit aliquip magna nisi consequat aliqua veniam in aute ullamco Duis laborum ad non pariatur sit.</p>
-                    </div>
+                <?php if (is_active_sidebar('about-us-sidebar')) {
+                    dynamic_sidebar('about-us-sidebar');
+                }
+                ?>
 
-                    <div class="col-block">
-                        <h3 class="quarter-top-margin">Our Mission.</h3>
-                        <p>Lorem ipsum Nisi amet fugiat eiusmod et aliqua ad qui ut nisi Ut aute anim mollit fugiat qui sit ex occaecat et eu mollit nisi pariatur fugiat deserunt dolor veniam reprehenderit aliquip magna nisi consequat aliqua veniam in aute ullamco Duis laborum ad non pariatur sit.</p>
-                    </div>
-
-                    <div class="col-block">
-                        <h3 class="quarter-top-margin">Our Vision.</h3>
-                        <p>Lorem ipsum Nisi amet fugiat eiusmod et aliqua ad qui ut nisi Ut aute anim mollit fugiat qui sit ex occaecat et eu mollit nisi pariatur fugiat deserunt dolor veniam reprehenderit aliquip magna nisi consequat aliqua veniam in aute ullamco Duis laborum ad non pariatur sit.</p>
-                    </div>
-
-                    <div class="col-block">
-                        <h3 class="quarter-top-margin">Our Values.</h3>
-                        <p>Lorem ipsum Nisi amet fugiat eiusmod et aliqua ad qui ut nisi Ut aute anim mollit fugiat qui sit ex occaecat et eu mollit nisi pariatur fugiat deserunt dolor veniam reprehenderit aliquip magna nisi consequat aliqua veniam in aute ullamco Duis laborum ad non pariatur sit.</p>
-                    </div>
-
-                </div>
+            </div>
 
         </article>
 

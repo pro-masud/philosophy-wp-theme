@@ -68,6 +68,19 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
        }
     }
 
+    function philosophy_widgets_register(){
+        register_sidebar( array(
+            'name'          => __( 'About Us Post Sidebar', 'mistri' ),
+            'id'            => 'about-us-sidebar',
+            'description'   => __( 'Widgets in this area will be shown on the main sidebar.', 'mistri' ),
+            'before_widget' => '<div id="%1$s" class="col-block %2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="quarter-top-margin">',
+            'after_title'   => '</h3>',
+        ) );
+    }
+
+    add_action("widgets_init", "philosophy_widgets_register");
 
     // remove category Discription action
     remove_action("term_description", "wpautop");
