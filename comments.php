@@ -1,4 +1,4 @@
-<!-- <div class="comments-wrap">
+ <div class="comments-wrap">
     <div id="comments" class="row">
         <div class="col-full">
             <?php
