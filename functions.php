@@ -78,6 +78,26 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
             'before_title'  => '<h3 class="quarter-top-margin">',
             'after_title'   => '</h3>',
         ) );
+
+        register_sidebar( array(
+            'name'          => __( 'Contact Us Google Maps', 'mistri' ),
+            'id'            => 'google-maps',
+            'description'   => __( 'Widgets in this area will be shown on google maps', 'mistri' ),
+            'before_widget' => '<div id="%1$s" class="%2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '',
+            'after_title'   => '',
+        ) );
+
+        register_sidebar( array(
+            'name'          => __( 'Contact Us Form', 'mistri' ),
+            'id'            => 'contact-us-7',
+            'description'   => __( 'Widgets in this area will be shown on contact form', 'mistri' ),
+            'before_widget' => '<div id="%1$s" class="%2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3 class="quarter-top-margin">',
+            'after_title'   => '</h3>',
+        ) );
     }
 
     add_action("widgets_init", "philosophy_widgets_register");

@@ -8,3 +8,11 @@
     Tags: free theme, edu theme, 
     Text Domain: philosophy   
 */
+
+.contact-form-page .wpcf7-form-control-wrap{
+    display: block;
+}
+
+.contact-form-page .wpcf7-form-control-wrap input, .contact-form-page .wpcf7-form-control-wrap textarea, .contact-form-page p input[type= 'submit']{
+    width: 100%;
+}
