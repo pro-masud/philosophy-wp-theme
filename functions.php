@@ -6,7 +6,7 @@ if ( ! isset( $content_width ) ) $content_width = 900;
 function philosophy_after_setup_theme(){
     load_theme_textdomain("philosophy");
     add_theme_support("post-thumbnails");
-    add_theme_support("title-tag");
+    add_theme_support( 'title-tag' );
     add_theme_support( 'automatic-feed-links' );
     add_theme_support("html5", ['search-form', 'comment-list']);
     add_theme_support("post-formats", ["image", "gallery", "quote", "audio", "video", "link"]);
@@ -124,7 +124,7 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
 
     function custom_wp_title($title, $sep) {
         // Modify the title as needed
-        $title .= ' - My Site';
+        $title .= ' - Philosophy';
         return $title;
     }
     add_filter('wp_title', 'custom_wp_title', 10, 2);

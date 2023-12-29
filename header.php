@@ -4,18 +4,12 @@
     <!--- basic page needs
     ================================================== -->
     <meta <?php bloginfo('charset'); ?>>
-    <title>Philosophy</title>
     <meta name="description" content="">
     <meta name="author" content="">
 
     <!-- mobile specific metas
     ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-
-    <title><?php echo apply_filters( 'wp_title', wp_title('|', false, 'right') ); ?></title>
-    <!-- Other head elements go here -->
-</head>
-
     <?php wp_head(); ?>
 </head>
 
