@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html class="no-js" <?php echo language_attributes(); ?>>
 <head>
-
-
     <!--- basic page needs
     ================================================== -->
     <meta <?php bloginfo('charset'); ?>>
@@ -14,10 +12,15 @@
     ================================================== -->
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
+    <title><?php echo apply_filters( 'wp_title', wp_title('|', false, 'right') ); ?></title>
+    <!-- Other head elements go here -->
+</head>
+
     <?php wp_head(); ?>
 </head>
 
 <body id="top" <?php body_class(); ?>>
+<?php wp_body_open(); ?>
 
 <section class="s-pageheader <?php if(is_home()) echo 's-pageheader--home' ?>">
 

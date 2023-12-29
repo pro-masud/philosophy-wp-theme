@@ -40,6 +40,21 @@
                     ?>
                 </form> <!-- end form -->
 
+                <?php
+                     // Add comment pagination
+                    the_comments_navigation();
+
+                    // Add comment pagination
+                    the_comments_pagination();
+
+                     // Add comment pagination
+                        echo '<div class="comment-pagination">';
+                        previous_comments_link( 'Older Comments' );
+                        next_comments_link( 'Newer Comments' );
+                        echo '</div>';
+                
+                ?>
+
             </div> <!-- end respond -->
 
         </div> <!-- end col-full -->

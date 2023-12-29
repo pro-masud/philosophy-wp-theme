@@ -1,10 +1,13 @@
 <?php 
 // get wordpress theme version
 define("VERSION", wp_get_theme()->get("Version"));
+
+if ( ! isset( $content_width ) ) $content_width = 900;
 function philosophy_after_setup_theme(){
     load_theme_textdomain("philosophy");
     add_theme_support("post-thumbnails");
     add_theme_support("title-tag");
+    add_theme_support( 'automatic-feed-links' );
     add_theme_support("html5", ['search-form', 'comment-list']);
     add_theme_support("post-formats", ["image", "gallery", "quote", "audio", "video", "link"]);
     add_editor_style("/assets/css/editor-style.css");
@@ -33,6 +36,10 @@ function enqueue_template_files(){
 
     wp_enqueue_script("jquery");
     wp_enqueue_script("plugins-javascrip", get_theme_file_uri() . "/assets/js/plugins.js", ['jquery'], VERSION, true);
+
+    if ( is_singular() ){
+        wp_enqueue_script( "comment-reply" );
+    }
     wp_enqueue_script("main-javascrip", get_theme_file_uri() . "/assets/js/main.js", ['jquery'], VERSION, true);
 
 
@@ -64,15 +71,15 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
         $link = str_replace("prev pgn__num", "pgn__prev", $link);
         $link = str_replace("next pgn__num", "pgn__next", $link);
 
-        echo $link;
+        echo wp_kses_post($link);
        }
     }
 
     function philosophy_widgets_register(){
         register_sidebar( array(
-            'name'          => __( 'About Us Post Sidebar', 'mistri' ),
+            'name'          => __( 'About Us Post Sidebar', 'philosophy' ),
             'id'            => 'about-us-sidebar',
-            'description'   => __( 'Widgets in this area will be shown on the main sidebar.', 'mistri' ),
+            'description'   => __( 'Widgets in this area will be shown on the main sidebar.', 'philosophy' ),
             'before_widget' => '<div id="%1$s" class="col-block %2$s">',
             'after_widget'  => '</div>',
             'before_title'  => '<h3 class="quarter-top-margin">',
@@ -80,9 +87,9 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
         ) );
 
         register_sidebar( array(
-            'name'          => __( 'Contact Us Google Maps', 'mistri' ),
+            'name'          => __( 'Contact Us Google Maps', 'philosophy' ),
             'id'            => 'google-maps',
-            'description'   => __( 'Widgets in this area will be shown on google maps', 'mistri' ),
+            'description'   => __( 'Widgets in this area will be shown on google maps', 'philosophy' ),
             'before_widget' => '<div id="%1$s" class="%2$s">',
             'after_widget'  => '</div>',
             'before_title'  => '',
@@ -90,12 +97,22 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
         ) );
 
         register_sidebar( array(
-            'name'          => __( 'Contact Us Form', 'mistri' ),
+            'name'          => __( 'Contact Us Form', 'philosophy' ),
             'id'            => 'contact-us-7',
-            'description'   => __( 'Widgets in this area will be shown on contact form', 'mistri' ),
+            'description'   => __( 'Widgets in this area will be shown on contact form', 'philosophy' ),
             'before_widget' => '<div id="%1$s" class="%2$s">',
             'after_widget'  => '</div>',
             'before_title'  => '<h3 class="quarter-top-margin">',
+            'after_title'   => '</h3>',
+        ) );
+
+        register_sidebar( array(
+            'name'          => __( 'Footer Info', 'philosophy' ),
+            'id'            => 'footer-info',
+            'description'   => __( 'Widgets in this area will be shown on footer', 'philosophy' ),
+            'before_widget' => '<div id="%1$s" class="%2$s">',
+            'after_widget'  => '</div>',
+            'before_title'  => '<h3>',
             'after_title'   => '</h3>',
         ) );
     }
@@ -104,5 +121,12 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
 
     // remove category Discription action
     remove_action("term_description", "wpautop");
+
+    function custom_wp_title($title, $sep) {
+        // Modify the title as needed
+        $title .= ' - My Site';
+        return $title;
+    }
+    add_filter('wp_title', 'custom_wp_title', 10, 2);
 
 ?>

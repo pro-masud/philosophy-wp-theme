@@ -16,7 +16,7 @@
                         "orderby" => "comment_count",
                     ]
                 );
-                while ($phososhpy_popular_post->have_posts()):
+                while ($phososhpy_popular_post->have_posts()){
                     $phososhpy_popular_post->the_post();
                     ?>
                     <article class="col-block popular__post">
@@ -29,19 +29,18 @@
                             <span class="popular__date"><span><?php echo _e('on', 'philosophy'); ?></span> <time datetime="<?php echo get_the_date(); ?>"><?php echo get_the_date(); ?></time></span>
                         </section>
                     </article>
-                <?php endwhile; ?>
+                <?php 
+                }
+                    wp_reset_postdata();
+                ?>
             </div> <!-- end popular_posts -->
         </div> <!-- end popular -->
 
         <div class="col-four md-six tab-full about">
-            <h3>About Philosophy</h3>
-
-            <p>
-                Donec sollicitudin molestie malesuada. Nulla quis lorem ut libero malesuada feugiat. Pellentesque in
-                ipsum id orci porta dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere
-                cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Quisque
-                velit nisi, pretium ut lacinia in, elementum id enim. Donec sollicitudin molestie malesuada.
-            </p>
+           <?php if(is_active_sidebar('footer-info')){
+                dynamic_sidebar('footer-info');
+           }
+           ?>
 
             <ul class="about__social">
                 <li>
@@ -63,20 +62,10 @@
 
     <div class="row bottom tags-wrap">
         <div class="col-full tags">
-            <h3>Tags</h3>
+            <h3><?php echo _e('Tags','philosophy'); ?></h3>
 
             <div class="tagcloud">
-                <a href="#0">Salad</a>
-                <a href="#0">Recipe</a>
-                <a href="#0">Places</a>
-                <a href="#0">Tips</a>
-                <a href="#0">Friends</a>
-                <a href="#0">Travel</a>
-                <a href="#0">Exercise</a>
-                <a href="#0">Reading</a>
-                <a href="#0">Running</a>
-                <a href="#0">Self-Help</a>
-                <a href="#0">Vacation</a>
+               <?php the_tags('', '', ''); ?>
             </div> <!-- end tagcloud -->
         </div> <!-- end tags -->
     </div> <!-- end tags-wrap -->

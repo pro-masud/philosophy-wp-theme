@@ -15,7 +15,7 @@
 
         $headerMenu = str_replace($search, $replace, $headerMenu);
         
-        echo $headerMenu; 
+        echo wp_kses_post($headerMenu); 
     ?>
 
     <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu"><?php echo _e("Close", "philosophy"); ?></a>

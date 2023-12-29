@@ -13,13 +13,17 @@ $feture_post_data = [];
 while ($feturepost->have_posts()) {
     $feturepost->the_post();
     $categorys = get_the_category();
+    $category = $categorys[mt_rand(0, count($categorys)-1)];
     $feture_post_data[] = [
         'title' => get_the_title(),
         'feture_image' => get_the_post_thumbnail_url(get_the_ID(), 'large'),
+        'permalink' => get_permalink(),
         'post_date' => get_the_date('F j, Y'),
         'author' => get_the_author_meta('display_name'),
+        'author_url'    => get_author_posts_url(get_the_author_meta("ID")),
         'avatar' => get_avatar_url(get_the_author_meta('ID')),
-        'cat'   => $categorys[rand(0, count($categorys) -1)]->name,
+        'cat'   => $category->name,
+        'catlink'   => get_category_link($category)
     ];
 }
 if ($feturepost->post_count > 1):
@@ -35,20 +39,20 @@ if ($feturepost->post_count > 1):
                         style="background-image:url('<?php echo esc_url($feture_post_data[0]['feture_image']); ?>');">
 
                         <div class="entry__content">
-                            <span class="entry__category"><a href="#0"><?php echo esc_html($feture_post_data[0]['cat']); ?></a></span>
+                            <span class="entry__category"><a href="<?php esc_url($feture_post_data[0]['catlink']); ?>"><?php echo esc_html($feture_post_data[0]['cat']); ?></a></span>
 
-                            <h1><a href="<?php the_permalink(); ?>" title=""><?php echo esc_html($feture_post_data[0]['title']); ?></a>
+                            <h1><a href="<?php echo esc_url($feture_post_data[0]['permalink']); ?>" title="<?php echo esc_attr($feture_post_data[0]['title']); ?>"><?php echo esc_html($feture_post_data[0]['title']); ?></a>
                             </h1>
 
                             <div class="entry__info">
-                                <a href="#0" class="entry__profile-pic">
+                                <a href="<?php echo esc_url($feture_post_data[0]['author_url']); ?>" class="entry__profile-pic">
                                     <img class="avatar"
                                         src="<?php echo esc_url($feture_post_data[0]['avatar']);  ?> "
                                         alt="">
                                 </a>
 
                                 <ul class="entry__meta">
-                                    <li><a href="#0"><?php echo esc_html(ucwords($feture_post_data[0]['author'])); ?></a></li>
+                                    <li><a href="<?php echo esc_url($feture_post_data[0]['author_url']);  ?>"><?php echo esc_html(ucwords($feture_post_data[0]['author'])); ?></a></li>
                                     <li><?php echo esc_html($feture_post_data[0]['post_date']); ?></li>
                                 </ul>
                             </div>
@@ -63,21 +67,19 @@ if ($feturepost->post_count > 1):
                             style="background-image:url('<?php echo esc_url($feture_post_data[$i]['feture_image']); ?>');">
 
                             <div class="entry__content">
-                                <span class="entry__category"><a href="#0"><?php echo esc_html($feture_post_data[$i]['cat']); ?></a></span>
+                                <span class="entry__category"><a href="<?php esc_url($feture_post_data[$i]['catlink']); ?>"><?php echo esc_html($feture_post_data[$i]['cat']); ?></a></span>
 
-                                <h1><a href="<?php the_permalink(); ?>" title=""><?php echo esc_html($feture_post_data[$i]['title']); ?></a>
-                                </h1>
-
+                                <h1><a href="<?php esc_url($feture_post_data[$i]['permalink']); ?>" title="<?php echo esc_attr($feture_post_data[$i]['title']); ?>"><?php echo esc_html($feture_post_data[$i]['title']); ?></a></h1>
                                 <div class="entry__info">
-                                    <a href="#0" class="entry__profile-pic">
+                                    <a href="<?php echo esc_url($feture_post_data[$i]['author_url']); ?>" class="entry__profile-pic">
                                         <img class="avatar"
                                             src="<?php echo esc_url($feture_post_data[$i]['avatar']);  ?> "
                                             alt="">
                                     </a>
 
                                     <ul class="entry__meta">
-                                        <li><a href="#0"><?php echo esc_html(ucwords($feture_post_data[$i]['author'])); ?></a></li>
-                                        <li><?php echo $feture_post_data[$i]['post_date']; ?></li>
+                                        <li><a href="<?php echo esc_url($feture_post_data[$i]['author_url']); ?>"><?php echo esc_html(ucwords($feture_post_data[$i]['author'])); ?></a></li>
+                                        <li><?php echo esc_html($feture_post_data[$i]['post_date']); ?></li>
                                     </ul>
                                 </div>
                             </div> <!-- end entry__content -->

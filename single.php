@@ -38,7 +38,10 @@
             </div> <!-- end s-content__media -->
 
             <div class="col-full s-content__main">
-                <?php the_content(); ?>
+                <?php 
+                    the_content();
+                    wp_link_pages( $args );
+                ?>
                 <p class="s-content__tags">
                     <span>Post Tags</span>
 
@@ -65,25 +68,25 @@
                             <?php echo get_the_author_meta('user_description', $id) ?>
                         </p>
                         <?php
-                        $pliosophy_fb = get_field("facebook_profile", "user_" . get_the_author_meta("ID"));
-                        $pliosophy_tw = get_field("twitter_profile", "user_" . get_the_author_meta("ID"));
-                        $pliosophy_insta = get_field("instagram_profile", "user_" . get_the_author_meta("ID"));
-                        $pliosophy_gg = get_field("google_profile", "user_" . get_the_author_meta("ID"));
+                        $philosophy_fb = get_field("facebook_profile", "user_" . get_the_author_meta("ID"));
+                        $philosophy_tw = get_field("twitter_profile", "user_" . get_the_author_meta("ID"));
+                        $philosophy_insta = get_field("instagram_profile", "user_" . get_the_author_meta("ID"));
+                        $philosophy_gg = get_field("google_profile", "user_" . get_the_author_meta("ID"));
 
                         ?>
-                        <?php if ($pliosophy_fb || $pliosophy_tw || $pliosophy_insta || $pliosophy_gg): ?>
+                        <?php if ($philosophy_fb || $philosophy_tw || $philosophy_insta || $philosophy_gg): ?>
                             <ul class="s-content__author-social">
-                                <?php if ($pliosophy_fb): ?>
-                                    <li><a href="<?php echo esc_url($pliosophy_fb); ?>">Facebook</a></li>
+                                <?php if ($philosophy_fb): ?>
+                                    <li><a href="<?php echo esc_url($philosophy_fb); ?>">Facebook</a></li>
                                 <?php endif; ?>
-                                <?php if ($pliosophy_tw): ?>
-                                    <li><a href="<?php echo esc_url($pliosophy_tw); ?>">Twitter</a></li>
+                                <?php if ($philosophy_tw): ?>
+                                    <li><a href="<?php echo esc_url($philosophy_tw); ?>">Twitter</a></li>
                                 <?php endif; ?>
-                                <?php if ($pliosophy_insta): ?>
-                                    <li><a href="<?php echo esc_url($pliosophy_insta); ?>">GooglePlus</a></li>
+                                <?php if ($philosophy_insta): ?>
+                                    <li><a href="<?php echo esc_url($philosophy_insta); ?>">GooglePlus</a></li>
                                 <?php endif; ?>
-                                <?php if ($pliosophy_gg): ?>
-                                    <li><a href="<?php echo esc_url($pliosophy_gg); ?>">Instagram</a></li>
+                                <?php if ($philosophy_gg): ?>
+                                    <li><a href="<?php echo esc_url($philosophy_gg); ?>">Instagram</a></li>
                                 <?php endif; ?>
                             </ul>
                         <?php endif; ?>
@@ -94,27 +97,27 @@
                     <div class="s-content__nav">
                         <div class="s-content__prev">
                             <?php
-                            $pliosophy_prev_post = get_previous_post();
-                            if ($pliosophy_prev_post):
+                            $philosophy_prev_post = get_previous_post();
+                            if ($philosophy_prev_post):
                                 ?>
-                                <a href="<?php echo get_the_permalink($pliosophy_prev_post); ?>" rel="prev">
+                                <a href="<?php echo get_the_permalink($philosophy_prev_post); ?>" rel="prev">
                                     <span>
-                                        <?php _e('Previous Post', 'pliosophy'); ?>
+                                        <?php _e('Previous Post', 'philosophy'); ?>
                                     </span>
-                                    <?php echo get_the_title($pliosophy_prev_post); ?>
+                                    <?php echo get_the_title($philosophy_prev_post); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
                         <div class="s-content__next">
                         <?php
-                            $pliosophy_next_post = get_next_post();
-                            if ($pliosophy_next_post):
+                            $philosophy_next_post = get_next_post();
+                            if ($philosophy_next_post):
                                 ?>
-                                <a href="<?php echo get_the_permalink($pliosophy_next_post); ?>" rel="prev">
+                                <a href="<?php echo get_the_permalink($philosophy_next_post); ?>" rel="prev">
                                     <span>
-                                        <?php _e('Next Post', 'pliosophy'); ?>
+                                        <?php _e('Next Post', 'philosophy'); ?>
                                     </span>
-                                    <?php echo get_the_title($pliosophy_next_post); ?>
+                                    <?php echo get_the_title($philosophy_next_post); ?>
                                 </a>
                             <?php endif; ?>
                         </div>
