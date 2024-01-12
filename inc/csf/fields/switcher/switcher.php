@@ -1,40 +1,25 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: switcher
+ * Field: Switcher
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_switcher' ) ) {
-  class CSF_Field_switcher extends CSF_Fields {
+class CSFramework_Option_switcher extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      $active     = ( ! empty( $this->value ) ) ? ' csf--active' : '';
-      $text_on    = ( ! empty( $this->field['text_on'] ) ) ? $this->field['text_on'] : esc_html__( 'On', 'csf' );
-      $text_off   = ( ! empty( $this->field['text_off'] ) ) ? $this->field['text_off'] : esc_html__( 'Off', 'csf' );
-      $text_width = ( ! empty( $this->field['text_width'] ) ) ? ' style="width: '. esc_attr( $this->field['text_width'] ) .'px;"': '';
-
-      echo $this->field_before();
-
-      echo '<div class="csf--switcher'. esc_attr( $active ) .'"'. $text_width .'>';
-      echo '<span class="csf--on">'. esc_attr( $text_on ) .'</span>';
-      echo '<span class="csf--off">'. esc_attr( $text_off ) .'</span>';
-      echo '<span class="csf--ball"></span>';
-      echo '<input type="hidden" name="'. esc_attr( $this->field_name() ) .'" value="'. esc_attr( $this->value ) .'"'. $this->field_attributes() .' />';
-      echo '</div>';
-
-      echo ( ! empty( $this->field['label'] ) ) ? '<span class="csf--label">'. esc_attr( $this->field['label'] ) . '</span>' : '';
-
-      echo $this->field_after();
-
-    }
+    echo $this->element_before();
+    $label = ( isset( $this->field['label'] ) ) ? '<div class="cs-text-desc">'. $this->field['label'] . '</div>' : '';
+    echo '<label><input type="checkbox" name="'. $this->element_name() .'" value="1"'. $this->element_class() . $this->element_attributes() . checked( $this->element_value(), 1, false ) .'/><em data-on="'. esc_html__( 'on', 'cs-framework' ) .'" data-off="'. esc_html__( 'off', 'cs-framework' ) .'"></em><span></span></label>' . $label;
+    echo $this->element_after();
 
   }
+
 }

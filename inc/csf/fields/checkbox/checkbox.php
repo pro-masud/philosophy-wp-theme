@@ -1,101 +1,43 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: checkbox
+ * Field: Checkbox
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_checkbox' ) ) {
-  class CSF_Field_checkbox extends CSF_Fields {
+class CSFramework_Option_checkbox extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      $args              = wp_parse_args( $this->field, array(
-        'inline'         => false,
-        'query_args'     => array(),
-        'check_all'      => false,
-        'check_all_text' => esc_html__( 'Check/Uncheck All' ),
-      ) );
+    echo $this->element_before();
 
-      $inline_class = ( $args['inline'] ) ? ' class="csf--inline-list"' : '';
+    if( isset( $this->field['options'] ) ) {
 
-      echo $this->field_before();
+      $options  = $this->field['options'];
+      $options  = ( is_array( $options ) ) ? $options : array_filter( $this->element_data( $options ) );
 
-      if ( isset( $this->field['options'] ) ) {
+      if( ! empty( $options ) ) {
 
-        $value   = ( is_array( $this->value ) ) ? $this->value : array_filter( (array) $this->value );
-        $options = $this->field['options'];
-        $options = ( is_array( $options ) ) ? $options : array_filter( $this->field_data( $options, false, $args['query_args'] ) );
-
-        if ( is_array( $options ) && ! empty( $options ) ) {
-
-          echo '<ul'. $inline_class .'>';
-
-          foreach ( $options as $option_key => $option_value ) {
-
-            if ( is_array( $option_value ) && ! empty( $option_value ) ) {
-
-              echo '<li>';
-                echo '<ul>';
-                  echo '<li><strong>'. esc_attr( $option_key ) .'</strong></li>';
-                  foreach ( $option_value as $sub_key => $sub_value ) {
-                    $checked = ( in_array( $sub_key, $value ) ) ? ' checked' : '';
-                    echo '<li>';
-                    echo '<label>';
-                    echo '<input type="checkbox" name="'. esc_attr( $this->field_name( '[]' ) ) .'" value="'. esc_attr( $sub_key ) .'"'. $this->field_attributes() . esc_attr( $checked ) .'/>';
-                    echo '<span class="csf--text">'. esc_attr( $sub_value ) .'</span>';
-                    echo '</label>';
-                    echo '</li>';
-                  }
-                echo '</ul>';
-              echo '</li>';
-
-            } else {
-
-              $checked = ( in_array( $option_key, $value ) ) ? ' checked' : '';
-
-              echo '<li>';
-              echo '<label>';
-              echo '<input type="checkbox" name="'. esc_attr( $this->field_name( '[]' ) ) .'" value="'. esc_attr( $option_key ) .'"'. $this->field_attributes() . esc_attr( $checked ) .'/>';
-              echo '<span class="csf--text">'. esc_attr( $option_value ) .'</span>';
-              echo '</label>';
-              echo '</li>';
-
-            }
-
-          }
-
-          echo '</ul>';
-
-          if ( $args['check_all'] ) {
-            echo '<div class="csf-checkbox-all">'. esc_html( $args['check_all_text'] ) .'</div>';
-          }
-
-        } else {
-
-          echo ( ! empty( $this->field['empty_message'] ) ) ? esc_attr( $this->field['empty_message'] ) : esc_html__( 'No data available.', 'csf' );
-
+        echo '<ul'. $this->element_class() .'>';
+        foreach ( $options as $key => $value ) {
+          echo '<li><label><input type="checkbox" name="'. $this->element_name( '[]' ) .'" value="'. $key .'"'. $this->element_attributes( $key ) . $this->checked( $this->element_value(), $key ) .'/> '.$value.'</label></li>';
         }
-
-      } else {
-
-        echo '<label class="csf-checkbox">';
-        echo '<input type="hidden" name="'. esc_attr( $this->field_name() ) .'" value="'. $this->value .'" class="csf--input"'. $this->field_attributes() .'/>';
-        echo '<input type="checkbox" name="_pseudo" class="csf--checkbox"'. esc_attr( checked( $this->value, 1, false ) ) . $this->field_attributes() .'/>';
-        echo ( ! empty( $this->field['label'] ) ) ? '<span class="csf--text">'. esc_attr( $this->field['label'] ) .'</span>' : '';
-        echo '</label>';
-
+        echo '</ul>';
       }
 
-      echo $this->field_after();
-
+    } else {
+      $label = ( isset( $this->field['label'] ) ) ? $this->field['label'] : '';
+      echo '<label><input type="checkbox" name="'. $this->element_name() .'" value="1"'. $this->element_class() . $this->element_attributes() . checked( $this->element_value(), 1, false ) .'/> '. $label .'</label>';
     }
 
+    echo $this->element_after();
+
   }
+
 }

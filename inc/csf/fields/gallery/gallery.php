@@ -1,52 +1,49 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: gallery
+ * Field: Gallery
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_gallery' ) ) {
-  class CSF_Field_gallery extends CSF_Fields {
+class CSFramework_Option_Gallery extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output(){
 
-      $args = wp_parse_args( $this->field, array(
-        'add_title'   => esc_html__( 'Add Gallery', 'csf' ),
-        'edit_title'  => esc_html__( 'Edit Gallery', 'csf' ),
-        'clear_title' => esc_html__( 'Clear', 'csf' ),
-      ) );
+    echo $this->element_before();
 
-      $hidden = ( empty( $this->value ) ) ? ' hidden' : '';
+    $value  = $this->element_value();
+    $add    = ( ! empty( $this->field['add_title'] ) ) ? $this->field['add_title'] : esc_html__( 'Add Gallery', 'cs-framework' );
+    $edit   = ( ! empty( $this->field['edit_title'] ) ) ? $this->field['edit_title'] : esc_html__( 'Edit Gallery', 'cs-framework' );
+    $clear  = ( ! empty( $this->field['clear_title'] ) ) ? $this->field['clear_title'] : esc_html__( 'Clear', 'cs-framework' );
+    $hidden = ( empty( $value ) ) ? ' hidden' : '';
 
-      echo $this->field_before();
+    echo '<ul>';
 
-      echo '<ul>';
-      if ( ! empty( $this->value ) ) {
+    if( ! empty( $value ) ) {
 
-        $values = explode( ',', $this->value );
+      $values = explode( ',', $value );
 
-        foreach ( $values as $id ) {
-          $attachment = wp_get_attachment_image_src( $id, 'thumbnail' );
-          echo '<li><img src="'. esc_url( $attachment[0] ) .'" /></li>';
-        }
-
+      foreach ( $values as $id ) {
+        $attachment = wp_get_attachment_image_src( $id, 'thumbnail' );
+        echo '<li><img src="'. $attachment[0] .'" alt="" /></li>';
       }
-      echo '</ul>';
-
-      echo '<a href="#" class="button button-primary csf-button">'. $args['add_title'] .'</a>';
-      echo '<a href="#" class="button csf-edit-gallery'. esc_attr( $hidden ) .'">'. $args['edit_title'] .'</a>';
-      echo '<a href="#" class="button csf-warning-primary csf-clear-gallery'. esc_attr( $hidden ) .'">'. $args['clear_title'] .'</a>';
-      echo '<input type="hidden" name="'. esc_attr( $this->field_name() ) .'" value="'. esc_attr( $this->value ) .'"'. $this->field_attributes() .'/>';
-
-      echo $this->field_after();
 
     }
+
+    echo '</ul>';
+    echo '<a href="#" class="button button-primary cs-add">'. $add .'</a>';
+    echo '<a href="#" class="button cs-edit'. $hidden .'">'. $edit .'</a>';
+    echo '<a href="#" class="button cs-warning-primary cs-remove'. $hidden .'">'. $clear .'</a>';
+    echo '<input type="text" name="'. $this->element_name() .'" value="'. $value .'"'. $this->element_class() . $this->element_attributes() .'/>';
+
+    echo $this->element_after();
 
   }
+
 }

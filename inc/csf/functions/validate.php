@@ -1,4 +1,4 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
  * Email validate
@@ -7,14 +7,15 @@
  * @version 1.0.0
  *
  */
-if ( ! function_exists( 'csf_validate_email' ) ) {
-  function csf_validate_email( $value ) {
+if( ! function_exists( 'cs_validate_email' ) ) {
+  function cs_validate_email( $value, $field ) {
 
-    if ( ! filter_var( $value, FILTER_VALIDATE_EMAIL ) ) {
-      return esc_html__( 'Please enter a valid email address.', 'csf' );
+    if ( ! sanitize_email( $value ) ) {
+      return esc_html__( 'Please write a valid email address!', 'cs-framework' );
     }
 
   }
+  add_filter( 'cs_validate_email', 'cs_validate_email', 10, 2 );
 }
 
 /**
@@ -25,14 +26,15 @@ if ( ! function_exists( 'csf_validate_email' ) ) {
  * @version 1.0.0
  *
  */
-if ( ! function_exists( 'csf_validate_numeric' ) ) {
-  function csf_validate_numeric( $value ) {
+if( ! function_exists( 'cs_validate_numeric' ) ) {
+  function cs_validate_numeric( $value, $field ) {
 
     if ( ! is_numeric( $value ) ) {
-      return esc_html__( 'Please enter a valid number.', 'csf' );
+      return esc_html__( 'Please write a numeric data!', 'cs-framework' );
     }
 
   }
+  add_filter( 'cs_validate_numeric', 'cs_validate_numeric', 10, 2 );
 }
 
 /**
@@ -43,110 +45,11 @@ if ( ! function_exists( 'csf_validate_numeric' ) ) {
  * @version 1.0.0
  *
  */
-if ( ! function_exists( 'csf_validate_required' ) ) {
-  function csf_validate_required( $value ) {
-
+if( ! function_exists( 'cs_validate_required' ) ) {
+  function cs_validate_required( $value ) {
     if ( empty( $value ) ) {
-      return esc_html__( 'This field is required.', 'csf' );
+      return esc_html__( 'Fatal Error! This field is required!', 'cs-framework' );
     }
-
   }
-}
-
-/**
- *
- * URL validate
- *
- * @since 1.0.0
- * @version 1.0.0
- *
- */
-if ( ! function_exists( 'csf_validate_url' ) ) {
-  function csf_validate_url( $value ) {
-
-    if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
-      return esc_html__( 'Please enter a valid URL.', 'csf' );
-    }
-
-  }
-}
-
-/**
- *
- * Email validate for Customizer
- *
- * @since 1.0.0
- * @version 1.0.0
- *
- */
-if ( ! function_exists( 'csf_customize_validate_email' ) ) {
-  function csf_customize_validate_email( $validity, $value, $wp_customize ) {
-
-    if ( ! sanitize_email( $value ) ) {
-      $validity->add( 'required', esc_html__( 'Please enter a valid email address.', 'csf' ) );
-    }
-
-    return $validity;
-
-  }
-}
-
-/**
- *
- * Numeric validate for Customizer
- *
- * @since 1.0.0
- * @version 1.0.0
- *
- */
-if ( ! function_exists( 'csf_customize_validate_numeric' ) ) {
-  function csf_customize_validate_numeric( $validity, $value, $wp_customize ) {
-
-    if ( ! is_numeric( $value ) ) {
-      $validity->add( 'required', esc_html__( 'Please enter a valid number.', 'csf' ) );
-    }
-
-    return $validity;
-
-  }
-}
-
-/**
- *
- * Required validate for Customizer
- *
- * @since 1.0.0
- * @version 1.0.0
- *
- */
-if ( ! function_exists( 'csf_customize_validate_required' ) ) {
-  function csf_customize_validate_required( $validity, $value, $wp_customize ) {
-
-    if ( empty( $value ) ) {
-      $validity->add( 'required', esc_html__( 'This field is required.', 'csf' ) );
-    }
-
-    return $validity;
-
-  }
-}
-
-/**
- *
- * URL validate for Customizer
- *
- * @since 1.0.0
- * @version 1.0.0
- *
- */
-if ( ! function_exists( 'csf_customize_validate_url' ) ) {
-  function csf_customize_validate_url( $validity, $value, $wp_customize ) {
-
-    if ( ! filter_var( $value, FILTER_VALIDATE_URL ) ) {
-      $validity->add( 'required', esc_html__( 'Please enter a valid URL.', 'csf' ) );
-    }
-
-    return $validity;
-
-  }
+  add_filter( 'cs_validate_required', 'cs_validate_required' );
 }

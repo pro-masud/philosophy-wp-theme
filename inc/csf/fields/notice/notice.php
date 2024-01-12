@@ -1,26 +1,24 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: notice
+ * Field: Notice
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_notice' ) ) {
-  class CSF_Field_notice extends CSF_Fields {
+class CSFramework_Option_notice extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      $style = ( ! empty( $this->field['style'] ) ) ? $this->field['style'] : 'normal';
-
-      echo ( ! empty( $this->field['content'] ) ) ? '<div class="csf-notice csf-notice-'. esc_attr( $style ) .'">'. $this->field['content'] .'</div>' : '';
-
-    }
+    echo $this->element_before();
+    echo '<div class="cs-notice cs-'. $this->field['class'] .'">'. $this->field['content'] .'</div>';
+    echo $this->element_after();
 
   }
+
 }

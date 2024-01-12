@@ -1,41 +1,43 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: fieldset
+ * Field: Fieldset
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_fieldset' ) ) {
-  class CSF_Field_fieldset extends CSF_Fields {
+class CSFramework_Option_fieldset extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      echo $this->field_before();
+    echo $this->element_before();
 
-      echo '<div class="csf-fieldset-content" data-depend-id="'. esc_attr( $this->field['id'] ) .'">';
+    echo '<div class="cs-inner">';
 
-      foreach ( $this->field['fields'] as $field ) {
+    foreach ( $this->field['fields'] as $field ) {
 
-        $field_id      = ( isset( $field['id'] ) ) ? $field['id'] : '';
-        $field_default = ( isset( $field['default'] ) ) ? $field['default'] : '';
-        $field_value   = ( isset( $this->value[$field_id] ) ) ? $this->value[$field_id] : $field_default;
-        $unique_id     = ( ! empty( $this->unique ) ) ? $this->unique .'['. $this->field['id'] .']' : $this->field['id'];
+      $field_id      = ( isset( $field['id'] ) ) ? $field['id'] : '';
+      $field_default = ( isset( $field['default'] ) ) ? $field['default'] : '';
+      $field_value   = ( isset( $this->value[$field_id] ) ) ? $this->value[$field_id] : $field_default;
+      $unique_id     = $this->unique .'['. $this->field['id'] .']';
 
-        CSF::field( $field, $field_value, $unique_id, 'field/fieldset' );
-
+      if ( ! empty( $this->field['un_array'] ) ) {
+        echo cs_add_element( $field, cs_get_option( $field_id ), $this->unique );
+      } else {
+        echo cs_add_element( $field, $field_value, $unique_id );
       }
 
-      echo '</div>';
-
-      echo $this->field_after();
-
     }
 
+    echo '</div>';
+
+    echo $this->element_after();
+
   }
+
 }

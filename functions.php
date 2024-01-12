@@ -52,8 +52,9 @@ add_action("wp_enqueue_scripts", "enqueue_template_files");
 // TGM Plugin Activtion 
 require_once(get_theme_file_path("inc/tgm.php"));
 require_once(get_theme_file_path("inc/attactments.php"));
+require_once(get_theme_file_path("inc/csf/cs-framework.php"));
+require_once(get_theme_file_path("lib/metabox-options.php"));
 
-define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-latest/starbelly/' );
 
     function philosophy_post_pagination(){
         global $wp_query;
@@ -128,5 +129,7 @@ define( 'STARBELLY_EXTRA_PLUGINS_DIRECTORY', 'https://bslthemes.com/plugins-late
         return $title;
     }
     add_filter('wp_title', 'custom_wp_title', 10, 2);
+
+
 
 ?>

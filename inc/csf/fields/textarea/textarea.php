@@ -1,58 +1,30 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: textarea
+ * Field: Textarea
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_textarea' ) ) {
-  class CSF_Field_textarea extends CSF_Fields {
+class CSFramework_Option_textarea extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      echo $this->field_before();
-      echo $this->shortcoder();
-      echo '<textarea name="'. esc_attr( $this->field_name() ) .'"'. $this->field_attributes() .'>'. $this->value .'</textarea>';
-      echo $this->field_after();
+    echo $this->element_before();
+    echo $this->shortcode_generator();
+    echo '<textarea name="'. $this->element_name() .'"'. $this->element_class() . $this->element_attributes() .'>'. $this->element_value() .'</textarea>';
+    echo $this->element_after();
 
-    }
+  }
 
-    public function shortcoder() {
-
-      if ( ! empty( $this->field['shortcoder'] ) ) {
-
-        $shortcodes = ( is_array( $this->field['shortcoder'] ) ) ? $this->field['shortcoder'] : array_filter( (array) $this->field['shortcoder'] );
-        $instances  = ( ! empty( CSF::$shortcode_instances ) ) ? CSF::$shortcode_instances : array();
-
-        if ( ! empty( $shortcodes ) && ! empty( $instances ) ) {
-
-          foreach ( $shortcodes as $shortcode ) {
-
-            foreach ( $instances as $instance ) {
-
-              if ( $instance['modal_id'] === $shortcode ) {
-
-                $id    = $instance['modal_id'];
-                $title = $instance['button_title'];
-
-                echo '<a href="#" class="button button-primary csf-shortcode-button" data-modal-id="'. esc_attr( $id ) .'">'. esc_html( $title ) .'</a>';
-
-              }
-
-            }
-
-          }
-
-        }
-
-      }
-
+  public function shortcode_generator() {
+    if( isset( $this->field['shortcode'] ) && CS_ACTIVE_SHORTCODE ) {
+      echo '<a href="#" class="button button-primary cs-shortcode cs-shortcode-textarea">'. esc_html__( 'Add Shortcode', 'cs-framework' ) .'</a>';
     }
   }
 }

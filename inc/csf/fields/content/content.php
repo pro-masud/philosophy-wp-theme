@@ -1,28 +1,24 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: content
+ * Field: Content
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_content' ) ) {
-  class CSF_Field_content extends CSF_Fields {
+class CSFramework_Option_content extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      if ( ! empty( $this->field['content'] ) ) {
-
-        echo $this->field['content'];
-
-      }
-
-    }
+    echo $this->element_before();
+    echo $this->field['content'];
+    echo $this->element_after();
 
   }
+
 }

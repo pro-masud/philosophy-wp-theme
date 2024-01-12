@@ -1,79 +1,36 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: image_select
+ * Field: Image Select
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_image_select' ) ) {
-  class CSF_Field_image_select extends CSF_Fields {
+class CSFramework_Option_image_select extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
-    }
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
 
-    public function render() {
+  public function output() {
 
-      $args = wp_parse_args( $this->field, array(
-        'multiple' => false,
-        'inline'   => false,
-        'options'  => array(),
-      ) );
+    $input_type  = ( ! empty( $this->field['radio'] ) ) ? 'radio' : 'checkbox';
+    $input_attr  = ( ! empty( $this->field['multi_select'] ) ) ? '[]' : '';
 
-      $inline = ( $args['inline'] ) ? ' csf--inline-list' : '';
+    echo $this->element_before();
+    echo ( empty( $input_attr ) ) ? '<div class="cs-field-image-select">' : '';
 
-      $value = ( is_array( $this->value ) ) ? $this->value : array_filter( (array) $this->value );
-
-      echo $this->field_before();
-
-      if ( ! empty( $args['options'] ) ) {
-
-        echo '<div class="csf-siblings csf--image-group'. esc_attr( $inline ) .'" data-multiple="'. esc_attr( $args['multiple'] ) .'">';
-
-        $num = 1;
-
-        foreach ( $args['options'] as $key => $option ) {
-
-          $type    = ( $args['multiple'] ) ? 'checkbox' : 'radio';
-          $extra   = ( $args['multiple'] ) ? '[]' : '';
-          $active  = ( in_array( $key, $value ) ) ? ' csf--active' : '';
-          $checked = ( in_array( $key, $value ) ) ? ' checked' : '';
-
-          echo '<div class="csf--sibling csf--image'. esc_attr( $active ) .'">';
-            echo '<figure>';
-              echo '<img src="'. esc_url( $option ) .'" alt="img-'. esc_attr( $num++ ) .'" />';
-              echo '<input type="'. esc_attr( $type ) .'" name="'. esc_attr( $this->field_name( $extra ) ) .'" value="'. esc_attr( $key ) .'"'. $this->field_attributes() . esc_attr( $checked ) .'/>';
-            echo '</figure>';
-          echo '</div>';
-
-        }
-
-        echo '</div>';
-
+    if( isset( $this->field['options'] ) ) {
+      $options  = $this->field['options'];
+      foreach ( $options as $key => $value ) {
+        echo '<label><input type="'. $input_type .'" name="'. $this->element_name( $input_attr ) .'" value="'. $key .'"'. $this->element_class() . $this->element_attributes( $key ) . $this->checked( $this->element_value(), $key ) .'/><img src="'. $value .'" alt="'. $key .'" /></label>';
       }
-
-      echo $this->field_after();
-
     }
 
-    public function output() {
-
-      $output    = '';
-      $bg_image  = array();
-      $important = ( ! empty( $this->field['output_important'] ) ) ? '!important' : '';
-      $elements  = ( is_array( $this->field['output'] ) ) ? join( ',', $this->field['output'] ) : $this->field['output'];
-
-      if ( ! empty( $elements ) && isset( $this->value ) && $this->value !== '' ) {
-        $output = $elements .'{background-image:url('. $this->value .')'. $important .';}';
-      }
-
-      $this->parent->output_css .= $output;
-
-      return $output;
-
-    }
+    echo ( empty( $input_attr ) ) ? '</div>' : '';
+    echo $this->element_after();
 
   }
+
 }

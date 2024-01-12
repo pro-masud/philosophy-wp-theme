@@ -1,164 +1,93 @@
-<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access directly.
+<?php if ( ! defined( 'ABSPATH' ) ) { die; } // Cannot access pages directly.
 /**
  *
- * Field: group
+ * Field: Group
  *
  * @since 1.0.0
  * @version 1.0.0
  *
  */
-if ( ! class_exists( 'CSF_Field_group' ) ) {
-  class CSF_Field_group extends CSF_Fields {
+class CSFramework_Option_group extends CSFramework_Options {
 
-    public function __construct( $field, $value = '', $unique = '', $where = '', $parent = '' ) {
-      parent::__construct( $field, $value, $unique, $where, $parent );
+  public function __construct( $field, $value = '', $unique = '' ) {
+    parent::__construct( $field, $value, $unique );
+  }
+
+  public function output() {
+
+    echo $this->element_before();
+
+    $fields      = array_values( $this->field['fields'] );
+    $last_id     = ( is_array( $this->value ) ) ? max( array_keys( $this->value ) ) : 0;
+    $acc_title   = ( isset( $this->field['accordion_title'] ) ) ? $this->field['accordion_title'] : esc_html__( 'Adding', 'cs-framework' );
+    $field_title = ( isset( $fields[0]['title'] ) ) ? $fields[0]['title'] : $fields[1]['title'];
+    $field_id    = ( isset( $fields[0]['id'] ) ) ? $fields[0]['id'] : $fields[1]['id'];
+    $el_class    = ( isset( $this->field['title'] ) ) ? sanitize_title( $field_title ) : 'no-title';
+    $search_id   = cs_array_search( $fields, 'id', $acc_title );
+
+    if( ! empty( $search_id ) ) {
+
+      $acc_title = ( isset( $search_id[0]['title'] ) ) ? $search_id[0]['title'] : $acc_title;
+      $field_id  = ( isset( $search_id[0]['id'] ) ) ? $search_id[0]['id'] : $field_id;
+
     }
 
-    public function render() {
+    echo '<div class="cs-group cs-group-'. $el_class .'-adding hidden">';
 
-      $args = wp_parse_args( $this->field, array(
-        'max'                       => 0,
-        'min'                       => 0,
-        'fields'                    => array(),
-        'button_title'              => esc_html__( 'Add New', 'csf' ),
-        'accordion_title_prefix'    => '',
-        'accordion_title_number'    => false,
-        'accordion_title_auto'      => true,
-        'accordion_title_by'        => array(),
-        'accordion_title_by_prefix' => ' ',
-      ) );
+      echo '<h4 class="cs-group-title">'. $acc_title .'</h4>';
+      echo '<div class="cs-group-content">';
+      foreach ( $fields as $field ) {
+        $field['sub']   = true;
+        $unique         = $this->unique .'[_nonce]['. $this->field['id'] .']['. $last_id .']';
+        $field_default  = ( isset( $field['default'] ) ) ? $field['default'] : '';
+        echo cs_add_element( $field, $field_default, $unique );
+      }
+      echo '<div class="cs-element cs-text-right cs-remove"><a href="#" class="button cs-warning-primary cs-remove-group">'. esc_html__( 'Remove', 'cs-framework' ) .'</a></div>';
+      echo '</div>';
 
-      $title_prefix    = ( ! empty( $args['accordion_title_prefix'] ) ) ? $args['accordion_title_prefix'] : '';
-      $title_number    = ( ! empty( $args['accordion_title_number'] ) ) ? true : false;
-      $title_auto      = ( ! empty( $args['accordion_title_auto'] ) ) ? true : false;
-      $title_first     = ( isset( $this->field['fields'][0]['id'] ) ) ? $this->field['fields'][0]['id'] : $this->field['fields'][1]['id'];
-      $title_by        = ( is_array( $args['accordion_title_by'] ) ) ? $args['accordion_title_by'] : (array) $args['accordion_title_by'];
-      $title_by        = ( empty( $title_by ) ) ? array( $title_first ) : $title_by;
-      $title_by_prefix = ( ! empty( $args['accordion_title_by_prefix'] ) ) ? $args['accordion_title_by_prefix'] : '';
+    echo '</div>';
 
-      if ( preg_match( '/'. preg_quote( '['. $this->field['id'] .']' ) .'/', $this->unique ) ) {
+    echo '<div class="cs-groups cs-accordion">';
 
-        echo '<div class="csf-notice csf-notice-danger">'. esc_html__( 'Error: Field ID conflict.', 'csf' ) .'</div>';
+      if( ! empty( $this->value ) ) {
 
-      } else {
+        foreach ( $this->value as $key => $value ) {
 
-        echo $this->field_before();
+          $title = ( isset( $this->value[$key][$field_id] ) ) ? $this->value[$key][$field_id] : '';
 
-        echo '<div class="csf-cloneable-item csf-cloneable-hidden" data-depend-id="'. esc_attr( $this->field['id'] ) .'">';
-
-          echo '<div class="csf-cloneable-helper">';
-          echo '<i class="csf-cloneable-sort fas fa-arrows-alt"></i>';
-          echo '<i class="csf-cloneable-clone far fa-clone"></i>';
-          echo '<i class="csf-cloneable-remove csf-confirm fas fa-times" data-confirm="'. esc_html__( 'Are you sure to delete this item?', 'csf' ) .'"></i>';
-          echo '</div>';
-
-          echo '<h4 class="csf-cloneable-title">';
-          echo '<span class="csf-cloneable-text">';
-          echo ( $title_number ) ? '<span class="csf-cloneable-title-number"></span>' : '';
-          echo ( $title_prefix ) ? '<span class="csf-cloneable-title-prefix">'. esc_attr( $title_prefix ) .'</span>' : '';
-          echo ( $title_auto ) ? '<span class="csf-cloneable-value"><span class="csf-cloneable-placeholder"></span></span>' : '';
-          echo '</span>';
-          echo '</h4>';
-
-          echo '<div class="csf-cloneable-content">';
-          foreach ( $this->field['fields'] as $field ) {
-
-            $field_default = ( isset( $field['default'] ) ) ? $field['default'] : '';
-            $field_unique  = ( ! empty( $this->unique ) ) ? $this->unique .'['. $this->field['id'] .'][0]' : $this->field['id'] .'[0]';
-
-            CSF::field( $field, $field_default, '___'. $field_unique, 'field/group' );
-
+          if ( is_array( $title ) && isset( $this->multilang ) ) {
+            $lang  = cs_language_defaults();
+            $title = $title[$lang['current']];
+            $title = is_array( $title ) ? $title[0] : $title;
           }
-          echo '</div>';
 
-        echo '</div>';
+          $field_title = ( ! empty( $search_id ) ) ? $acc_title : $field_title;
 
-        echo '<div class="csf-cloneable-wrapper csf-data-wrapper" data-title-by="'. esc_attr( json_encode( $title_by ) ) .'" data-title-by-prefix="'. esc_attr( $title_by_prefix ) .'" data-title-number="'. esc_attr( $title_number ) .'" data-field-id="['. esc_attr( $this->field['id'] ) .']" data-max="'. esc_attr( $args['max'] ) .'" data-min="'. esc_attr( $args['min'] ) .'">';
+          echo '<div class="cs-group cs-group-'. $el_class .'-'. ( $key + 1 ) .'">';
+          echo '<h4 class="cs-group-title">'. $field_title .': '. $title .'</h4>';
+          echo '<div class="cs-group-content">';
 
-        if ( ! empty( $this->value ) ) {
-
-          $num = 0;
-
-          foreach ( $this->value as $value ) {
-
-            $title = '';
-
-            if ( ! empty( $title_by ) ) {
-
-              $titles = array();
-
-              foreach ( $title_by as $title_key ) {
-                if ( isset( $value[ $title_key ] ) ) {
-                  $titles[] = $value[ $title_key ];
-                }
-              }
-
-              $title = join( $title_by_prefix, $titles );
-
-            }
-
-            $title = ( is_array( $title ) ) ? reset( $title ) : $title;
-
-            echo '<div class="csf-cloneable-item">';
-
-              echo '<div class="csf-cloneable-helper">';
-              echo '<i class="csf-cloneable-sort fas fa-arrows-alt"></i>';
-              echo '<i class="csf-cloneable-clone far fa-clone"></i>';
-              echo '<i class="csf-cloneable-remove csf-confirm fas fa-times" data-confirm="'. esc_html__( 'Are you sure to delete this item?', 'csf' ) .'"></i>';
-              echo '</div>';
-
-              echo '<h4 class="csf-cloneable-title">';
-              echo '<span class="csf-cloneable-text">';
-              echo ( $title_number ) ? '<span class="csf-cloneable-title-number">'. esc_attr( $num+1 ) .'.</span>' : '';
-              echo ( $title_prefix ) ? '<span class="csf-cloneable-title-prefix">'. esc_attr( $title_prefix ) .'</span>' : '';
-              echo ( $title_auto ) ? '<span class="csf-cloneable-value">' . esc_attr( $title ) .'</span>' : '';
-              echo '</span>';
-              echo '</h4>';
-
-              echo '<div class="csf-cloneable-content">';
-
-              foreach ( $this->field['fields'] as $field ) {
-
-                $field_unique = ( ! empty( $this->unique ) ) ? $this->unique .'['. $this->field['id'] .']['. $num .']' : $this->field['id'] .'['. $num .']';
-                $field_value  = ( isset( $field['id'] ) && isset( $value[$field['id']] ) ) ? $value[$field['id']] : '';
-
-                CSF::field( $field, $field_value, $field_unique, 'field/group' );
-
-              }
-
-              echo '</div>';
-
-            echo '</div>';
-
-            $num++;
-
+          foreach ( $fields as $field ) {
+            $field['sub'] = true;
+            $unique = $this->unique . '[' . $this->field['id'] . ']['.$key.']';
+            $value  = ( isset( $field['id'] ) && isset( $this->value[$key][$field['id']] ) ) ? $this->value[$key][$field['id']] : '';
+            echo cs_add_element( $field, $value, $unique );
           }
+
+          echo '<div class="cs-element cs-text-right cs-remove"><a href="#" class="button cs-warning-primary cs-remove-group">'. esc_html__( 'Remove', 'cs-framework' ) .'</a></div>';
+          echo '</div>';
+          echo '</div>';
 
         }
 
-        echo '</div>';
-
-        echo '<div class="csf-cloneable-alert csf-cloneable-max">'. esc_html__( 'You cannot add more.', 'csf' ) .'</div>';
-        echo '<div class="csf-cloneable-alert csf-cloneable-min">'. esc_html__( 'You cannot remove more.', 'csf' ) .'</div>';
-        echo '<a href="#" class="button button-primary csf-cloneable-add">'. $args['button_title'] .'</a>';
-
-        echo $this->field_after();
-
       }
 
-    }
+    echo '</div>';
 
-    public function enqueue() {
+    echo '<a href="#" class="button button-primary cs-add-group">'. $this->field['button_title'] .'</a>';
 
-      if ( ! wp_script_is( 'jquery-ui-accordion' ) ) {
-        wp_enqueue_script( 'jquery-ui-accordion' );
-      }
-
-      if ( ! wp_script_is( 'jquery-ui-sortable' ) ) {
-        wp_enqueue_script( 'jquery-ui-sortable' );
-      }
-
-    }
+    echo $this->element_after();
 
   }
+
 }
